@@ -10,7 +10,11 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    outputs:
+      # one artifact name per run attempt: a re-run would otherwise leave two artifacts
+      # called github-pages in the run, and deploy-pages refuses to choose
+      artifact: github-pages-${{ github.run_attempt }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -22,12 +26,16 @@ jobs:
         run: python -m pip install -r requirements.txt
       - name: Build the JupyterLite site
         run: |
+          # Browsers keep their own copy of every notebook that was opened, which hides newer
+          # versions from the site. A storage name per deployment makes each deployment start fresh.
+          python -c "import json,os; p='jupyter-lite.json'; c=json.load(open(p)); c['jupyter-config-data']['contentsStorageName']='ModelFlow Lite '+os.environ['GITHUB_SHA'][:8]; json.dump(c,open(p,'w'),indent=2)"
           jupyter lite build
           # front page opens start.ipynb in the Notebook interface instead of JupyterLab
           cp overrides/index.html dist/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
+          name: github-pages-${{ github.run_attempt }}
           path: ./dist
 
   deploy:
@@ -38,8 +46,11 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+        with:
+          # from the build job, so "Re-run failed jobs" (deploy only) still finds it
+          artifact_name: ${{ needs.build.outputs.artifact }}

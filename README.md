@@ -53,6 +53,17 @@ nothing is compiled (fixed in the source for the next release). Not available in
 - **Dash**: the `.dash()` dashboard needs a web server.
 - **URLs** in `model.modelload(...)`: put the `.pcim` file in `content/` and load it by name.
 
+## Your edits and new versions
+
+JupyterLite keeps a copy of every notebook you open (and save) in your browser,
+and that copy hides the version on the site. The GitHub build therefore gives each
+deployment its own browser storage: after a new deployment you see the new
+notebooks, and edits made under the previous deployment are no longer shown.
+Download notebooks you want to keep (**File → Download**).
+
+Locally (`serve.cmd`) there is no such reset: use **Help → Clear Browser Data** in
+JupyterLab (`…/lab/`), or a private browser window.
+
 ## Publishing on GitHub
 
 1. Create a repository from this folder (GitHub Desktop: *Add local repository* →
