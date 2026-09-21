@@ -1,0 +1,4 @@
+# Keep LF in the repo (built on Linux by GitHub Actions); .cmd files stay CRLF for Windows
+* text=auto eol=lf
+*.cmd text eol=crlf
+*.whl binary

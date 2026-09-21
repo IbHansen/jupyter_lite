@@ -1,0 +1,7 @@
+# build output and caches of jupyter lite build
+dist/
+.cache/
+.jupyterlite.doit.db
+*.jupyterlite.tgz
+__pycache__/
+.ipynb_checkpoints/
