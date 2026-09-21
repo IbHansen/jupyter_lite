@@ -37,9 +37,15 @@ Each notebook first installs ModelFlow into the browser session:
 ```python
 %pip install -q numpy pandas scipy matplotlib sympy networkx tqdm seaborn openpyxl ipywidgets ipydatagrid
 %pip install -q --no-deps modelflowib
+
+import sys, types
+_nojit = lambda *a, **k: a[0] if len(a) == 1 and callable(a[0]) and not k else (lambda f: f)
+sys.modules['numba'] = types.SimpleNamespace(jit=_nojit, njit=_nojit)
 ```
 
-`--no-deps` skips ModelFlow's desktop-only dependencies. Not available in the browser:
+`--no-deps` skips ModelFlow's desktop-only dependencies. The last three lines give
+ModelFlow a stand-in for numba: 2.78's generated solver code imports numba even when
+nothing is compiled (fixed in the source for the next release). Not available in the browser:
 
 - **numba**: models run without JIT compilation (slower for big models).
 - **cvxopt**: the optimisation functions in the model language.
