@@ -23,6 +23,7 @@ once the server is running.
 |---|---|
 | `content/` | notebooks and data files that appear in the site |
 | `content/start.ipynb` | installs ModelFlow in the browser and runs a tiny model |
+| `content/mfsetup.py` | `install_modelflow()`: the install step every notebook starts with |
 | `requirements.txt` | build tools and widget front-ends (not installed in the browser) |
 | `jupyter_lite_config.json` | build settings: `content` → `dist` |
 | `jupyter-lite.json` | settings of the running site |
@@ -32,24 +33,26 @@ once the server is running.
 
 ## ModelFlow in the browser
 
-Each notebook first installs ModelFlow into the browser session:
+Each notebook starts by installing ModelFlow into the browser session (again after
+every reload), with the helper in `content/mfsetup.py`:
 
 ```python
-%pip install -q numpy pandas scipy matplotlib sympy networkx tqdm seaborn openpyxl jinja2 ipywidgets ipydatagrid
-%pip install -q --no-deps modelflowib
-
-import sys, types
-_nojit = lambda *a, **k: a[0] if len(a) == 1 and callable(a[0]) and not k else (lambda f: f)
-sys.modules['numba'] = types.SimpleNamespace(jit=_nojit, njit=_nojit)
-
-import tqdm
-tqdm.tqdm.monitor_interval = 0
+import sys
+if sys.platform == 'emscripten':  # only in the browser (JupyterLite): install ModelFlow, see mfsetup.py
+    %run mfsetup.py
+    await install_modelflow()     # extra packages as arguments, e.g. install_modelflow('statsmodels', 'lmfit')
 ```
 
-`--no-deps` skips ModelFlow's desktop-only dependencies. The `sys`/`types` lines give
-ModelFlow a stand-in for numba: 2.78's generated solver code imports numba even when
-nothing is compiled (fixed in the source for the next release). The tqdm line stops tqdm
-from starting a monitor thread, which the browser cannot do. Not available in the browser:
+Outside the browser the cell does nothing, so the same notebooks also run in ordinary
+Jupyter (desktop, Codespaces). The notebooks keep the standard `python3` kernel name;
+`jupyter-lite.json` makes JupyterLite start its own Python kernel for them without asking.
+
+`install_modelflow` installs the packages ModelFlow imports, then `modelflowib` without
+its desktop-only dependencies. It also gives ModelFlow a stand-in for numba (2.78's
+generated solver code imports numba even when nothing is compiled; fixed in the source
+for the next release), and stops tqdm from starting a monitor thread, which the browser
+cannot do. `%run` is used instead of `import` because the notebook folder is not on the
+kernel's import path. Not available in the browser:
 
 - **numba**: models run without JIT compilation (slower for big models).
 - **cvxopt**: the optimisation functions in the model language.
