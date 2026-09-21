@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!--
+  Replaces dist/index.html after "jupyter lite build" (see build.cmd and deploy.yml).
+  The site's front page opens start.ipynb in the Jupyter Notebook interface
+  instead of JupyterLab. The jupyter-config-data block must stay: the app pages
+  read this file to find the root of the site.
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ModelFlow Lite</title>
+    <script id="jupyter-config-data" type="application/json" data-jupyter-lite-root=".">
+      {}
+    </script>
+    <script>
+      window.location.replace('./notebooks/index.html?path=start.ipynb');
+    </script>
+  </head>
+  <body>
+    <p><a href="./notebooks/index.html?path=start.ipynb">Open start.ipynb</a></p>
+  </body>
+</html>

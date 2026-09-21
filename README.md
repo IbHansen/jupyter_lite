@@ -26,6 +26,7 @@ once the server is running.
 | `requirements.txt` | build tools and widget front-ends (not installed in the browser) |
 | `jupyter_lite_config.json` | build settings: `content` → `dist` |
 | `jupyter-lite.json` | settings of the running site |
+| `overrides/index.html` | front page: opens `start.ipynb` in the Notebook interface (copied over `dist/index.html` after the build) |
 | `pypi/` | optional local wheels, offered to `%pip install` before PyPI |
 | `.github/workflows/deploy.yml` | GitHub Actions: build and publish on GitHub Pages |
 
@@ -52,5 +53,5 @@ Each notebook first installs ModelFlow into the browser session:
    *create a repository* → *Publish*).
 2. On github.com: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 3. Every push to `main` rebuilds the site. It appears at
-   `https://<user>.github.io/<repo>/`, and a direct link to the start notebook is
-   `https://<user>.github.io/<repo>/notebooks/index.html?path=start.ipynb`.
+   `https://<user>.github.io/<repo>/` and opens `start.ipynb` in the Notebook
+   interface. The file list is at `…/tree/`, JupyterLab at `…/lab/`.
