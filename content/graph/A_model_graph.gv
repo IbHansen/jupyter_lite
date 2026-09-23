@@ -1,0 +1,23 @@
+digraph TD { rankdir ="LR" 
+{node  [margin=0.025 fontcolor=blue style=filled ] 
+ "GDP(-1)" [ shape=box fillcolor= springgreen tooltip="GDP&#10;FRML &lt;&gt; GDP = CONSUMPTION+INVESTMENT &#36;"  margin=0.025 fontcolor=blue style = filled  label=<<TABLE BORDER='0' CELLBORDER = '0' style = "filled"  > <TR><TD tooltip="GDP&#10;FRML &lt;&gt; GDP = CONSUMPTION+INVESTMENT &#36;">GDP(-1):GDP</TD></TR> </TABLE>> ]
+"MUL" [ shape=box fillcolor= yellow tooltip="MUL&#10;Exogen"  margin=0.025 fontcolor=blue style = filled  label=<<TABLE BORDER='0' CELLBORDER = '0' style = "filled"  > <TR><TD tooltip="MUL&#10;Exogen">MUL:</TD></TR> </TABLE>> ]
+"EXO_INVESTMENT" [ shape=box fillcolor= yellow tooltip="EXO_INVESTMENT&#10;Exogen"  margin=0.025 fontcolor=blue style = filled  label=<<TABLE BORDER='0' CELLBORDER = '0' style = "filled"  > <TR><TD tooltip="EXO_INVESTMENT&#10;Exogen">EXO_INVESTMENT:</TD></TR> </TABLE>> ]
+"INVESTMENT" [ shape=box fillcolor= steelblue1 tooltip="INVESTMENT&#10;FRML &lt;&gt; INVESTMENT = ACC*(CONSUMPTION-CONSUMPTION(-1))+EXO_INVESTMENT &#36;"  margin=0.025 fontcolor=blue style = filled  label=<<TABLE BORDER='0' CELLBORDER = '0' style = "filled"  > <TR><TD tooltip="INVESTMENT&#10;FRML &lt;&gt; INVESTMENT = ACC*(CONSUMPTION-CONSUMPTION(-1))+EXO_INVESTMENT &#36;">INVESTMENT:</TD></TR> </TABLE>> ]
+"ACC" [ shape=box fillcolor= yellow tooltip="ACC&#10;Exogen"  margin=0.025 fontcolor=blue style = filled  label=<<TABLE BORDER='0' CELLBORDER = '0' style = "filled"  > <TR><TD tooltip="ACC&#10;Exogen">ACC:</TD></TR> </TABLE>> ]
+"CONSUMPTION(-1)" [ shape=box fillcolor= springgreen tooltip="CONSUMPTION&#10;FRML &lt;&gt; CONSUMPTION = MUL*GDP(-1) &#36;"  margin=0.025 fontcolor=blue style = filled  label=<<TABLE BORDER='0' CELLBORDER = '0' style = "filled"  > <TR><TD tooltip="CONSUMPTION&#10;FRML &lt;&gt; CONSUMPTION = MUL*GDP(-1) &#36;">CONSUMPTION(-1):CONSUMPTION</TD></TR> </TABLE>> ]
+"GDP" [ shape=box fillcolor= steelblue1 tooltip="GDP&#10;FRML &lt;&gt; GDP = CONSUMPTION+INVESTMENT &#36;"  margin=0.025 fontcolor=blue style = filled  label=<<TABLE BORDER='0' CELLBORDER = '0' style = "filled"  > <TR><TD tooltip="GDP&#10;FRML &lt;&gt; GDP = CONSUMPTION+INVESTMENT &#36;">GDP:</TD></TR> </TABLE>> ]
+"CONSUMPTION" [ shape=box fillcolor= steelblue1 tooltip="CONSUMPTION&#10;FRML &lt;&gt; CONSUMPTION = MUL*GDP(-1) &#36;"  margin=0.025 fontcolor=blue style = filled  label=<<TABLE BORDER='0' CELLBORDER = '0' style = "filled"  > <TR><TD tooltip="CONSUMPTION&#10;FRML &lt;&gt; CONSUMPTION = MUL*GDP(-1) &#36;">CONSUMPTION:</TD></TR> </TABLE>> ] 
+} 
+"MUL" -> "CONSUMPTION" [ style = filled tooltip=NA href="bogus" penwidth = 0.5 ]
+"CONSUMPTION(-1)" -> "INVESTMENT" [ style = filled tooltip=NA href="bogus" penwidth = 0.5 ]
+"CONSUMPTION" -> "INVESTMENT" [ style = filled tooltip=NA href="bogus" penwidth = 0.5 ]
+"ACC" -> "INVESTMENT" [ style = filled tooltip=NA href="bogus" penwidth = 0.5 ]
+"CONSUMPTION" -> "CONSUMPTION(-1)" [ style = filled tooltip=NA href="bogus" penwidth = 0.5 ]
+"INVESTMENT" -> "GDP" [ style = filled tooltip=NA href="bogus" penwidth = 0.5 ]
+"CONSUMPTION" -> "GDP" [ style = filled tooltip=NA href="bogus" penwidth = 0.5 ]
+"EXO_INVESTMENT" -> "INVESTMENT" [ style = filled tooltip=NA href="bogus" penwidth = 0.5 ]
+"GDP" -> "GDP(-1)" [ style = filled tooltip=NA href="bogus" penwidth = 0.5 ]
+"GDP(-1)" -> "CONSUMPTION" [ style = filled tooltip=NA href="bogus" penwidth = 0.5 ]
+ label = "A_model_graph";
+}
