@@ -40,23 +40,24 @@ every reload), with the helper in `content/mfsetup.py`:
 import sys
 if sys.platform == 'emscripten':  # only in the browser (JupyterLite): install ModelFlow, see mfsetup.py
     %run mfsetup.py
-    await install_modelflow()     # extra packages as arguments, e.g. install_modelflow('statsmodels', 'lmfit')
+    await install_modelflow()     # extra packages as arguments, e.g. install_modelflow('shiny')
 ```
 
 Outside the browser the cell does nothing, so the same notebooks also run in ordinary
 Jupyter (desktop, Codespaces). The notebooks keep the standard `python3` kernel name;
 `jupyter-lite.json` makes JupyterLite start its own Python kernel for them without asking.
 
-`install_modelflow` installs the packages ModelFlow imports, then `modelflowib` without
-its desktop-only dependencies. It also gives ModelFlow a stand-in for numba (2.78's
-generated solver code imports numba even when nothing is compiled; fixed in the source
-for the next release), and stops tqdm from starting a monitor thread, which the browser
-cannot do. `%run` is used instead of `import` because the notebook folder is not on the
-kernel's import path. Not available in the browser:
+`install_modelflow` installs `modelflowib` with its dependencies. From version 2.81 the
+wheel knows which of them a browser can have — the desktop-only ones are marked
+`sys_platform != 'emscripten'` in its pyproject — so the helper lists no packages of its
+own and ModelFlow needs no patching afterwards. `%run` is used instead of `import`
+because the notebook folder is not on the kernel's import path. Not available in the
+browser:
 
 - **numba**: models run without JIT compilation (slower for big models).
 - **cvxopt**: the optimisation functions in the model language.
-- **Graphviz** (`dot`): `.draw()` and other graph drawings.
+- **Graphviz** (`dot`): graphs are drawn with networkx and ModelFlow's own SVG engine
+  instead, so `.draw()` and the other drawings work.
 - **Dash**: the `.dash()` dashboard needs a web server.
 - **URLs** in `model.modelload(...)`: put the `.pcim` file in `content/` and load it by name.
 

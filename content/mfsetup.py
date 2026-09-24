@@ -6,41 +6,23 @@ does nothing outside the browser, so the same notebook also runs in ordinary Jup
     import sys
     if sys.platform == 'emscripten':  # only in the browser (JupyterLite); see mfsetup.py
         %run mfsetup.py
-        await install_modelflow()                  # or: install_modelflow('statsmodels', 'lmfit')
+        await install_modelflow()                  # or: install_modelflow('some_package')
 
 ``%run`` is used rather than ``import`` because the notebook folder is not on the
 kernel's import path.
+
+From modelflowib 2.81 the wheel itself knows which of its dependencies a browser can
+have: the desktop-only ones (numba, cvxopt, dash, the jupyter metapackage, ...) are
+marked ``sys_platform != 'emscripten'`` in its pyproject, so micropip leaves them out.
+Nothing has to be listed here, and ModelFlow needs no patching afterwards.
 """
 import sys
-import types
-
-# Packages ModelFlow imports. numba, cvxopt and dash are not available in the browser;
-# ModelFlow runs without them.
-PACKAGES = ['numpy', 'pandas', 'scipy', 'matplotlib', 'sympy', 'networkx', 'tqdm',
-            'seaborn', 'openpyxl', 'jinja2', 'ipywidgets', 'ipydatagrid']
-
-
-def _nojit(*args, **kwargs):
-    """Stand-in for numba.jit/njit: returns the function uncompiled."""
-    if len(args) == 1 and callable(args[0]) and not kwargs:
-        return args[0]
-    return lambda f: f
 
 
 async def install_modelflow(*extra):
-    """Install ModelFlow and the packages it needs; ``extra`` are more packages to install."""
+    """Install ModelFlow and its dependencies; ``extra`` are more packages to install."""
     if sys.platform != 'emscripten':
         return  # ordinary Python: ModelFlow is installed the normal way
     import piplite
 
-    await piplite.install(PACKAGES + list(extra))
-    # ModelFlow itself, without its desktop-only dependencies
-    await piplite.install('modelflowib', deps=False)
-
-    # numba does not exist in the browser. ModelFlow 2.78's generated solver code imports it
-    # even when nothing is compiled, so give it a stand-in that leaves functions uncompiled.
-    sys.modules.setdefault('numba', types.SimpleNamespace(jit=_nojit, njit=_nojit))
-
-    # the browser has no threads: stop tqdm from trying to start its monitor thread
-    import tqdm
-    tqdm.tqdm.monitor_interval = 0
+    await piplite.install(['modelflowib', *extra])
