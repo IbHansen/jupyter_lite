@@ -5,3 +5,6 @@ dist/
 *.jupyterlite.tgz
 __pycache__/
 .ipynb_checkpoints/
+
+# graph files drawn by modelflow, regenerated when the notebooks run
+graph/
