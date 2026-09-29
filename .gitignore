@@ -8,3 +8,7 @@ __pycache__/
 
 # graph files drawn by modelflow, regenerated when the notebooks run
 graph/
+
+# wheels from add_local_modelflow.cmd: a local experiment with unreleased source.
+# The deployed site installs modelflowib from PyPI, so a wheel here must stay local
+pypi/
