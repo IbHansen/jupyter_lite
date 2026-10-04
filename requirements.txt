@@ -14,3 +14,7 @@ ipydatagrid
 # the causality viewer (modelcausality); the same version range as in the modelflow
 # pyproject, as the front end here must fit the Python part piplite installs
 anywidget>=0.11,<0.12
+
+# MyST markdown in notebook cells (directives, {mermaid}); a front-end extension only,
+# so it lives here and not in the browser kernel
+jupyterlab-myst
