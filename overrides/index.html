@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
   Replaces dist/index.html after "jupyter lite build" (see build.cmd and deploy.yml).
-  The site's front page opens start.ipynb in the Jupyter Notebook interface
+  The site's front page opens pakstart.ipynb in the Jupyter Notebook interface
   instead of JupyterLab. The jupyter-config-data block must stay: the app pages
   read this file to find the root of the site.
 -->
@@ -13,10 +13,10 @@
       {}
     </script>
     <script>
-      window.location.replace('./notebooks/index.html?path=start.ipynb');
+      window.location.replace('./notebooks/index.html?path=pakstart.ipynb');
     </script>
   </head>
   <body>
-    <p><a href="./notebooks/index.html?path=start.ipynb">Open start.ipynb</a></p>
+    <p><a href="./notebooks/index.html?path=pakstart.ipynb">Open pakstart.ipynb</a></p>
   </body>
 </html>

@@ -11,6 +11,6 @@ REM and then can't replace a changed notebook there. Clear it before building.
 if exist dist attrib -R "dist\*" /S /D >nul
 jupyter lite build
 if errorlevel 1 exit /b 1
-REM front page opens start.ipynb in the Notebook interface instead of JupyterLab
+REM front page opens pakstart.ipynb in the Notebook interface instead of JupyterLab
 copy /y overrides\index.html dist\index.html >nul
 endlocal

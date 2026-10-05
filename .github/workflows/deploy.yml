@@ -30,7 +30,7 @@ jobs:
           # versions from the site. A storage name per deployment makes each deployment start fresh.
           python -c "import json,os; p='jupyter-lite.json'; c=json.load(open(p)); c['jupyter-config-data']['contentsStorageName']='ModelFlow Lite '+os.environ['GITHUB_SHA'][:8]; json.dump(c,open(p,'w'),indent=2)"
           jupyter lite build
-          # front page opens start.ipynb in the Notebook interface instead of JupyterLab
+          # front page opens pakstart.ipynb in the Notebook interface instead of JupyterLab
           cp overrides/index.html dist/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5

@@ -11,7 +11,7 @@ site and publishes it on GitHub Pages.
 |---|---|---|
 | once | `setup_env.cmd` | creates the conda env `jlite` with the build tools from `requirements.txt` |
 | after every change | `build.cmd` | builds the site from `content\` into `dist\` |
-| to try it | `serve.cmd` | serves `dist\` on <http://127.0.0.1:8000/> and opens `start.ipynb` |
+| to try it | `serve.cmd` | serves `dist\` on <http://127.0.0.1:8000/> and opens `pakstart.ipynb`; runs `serve_dist.cmd` (Python's http.server), which redirects `/tree` to `/tree/` like GitHub Pages so File → Open works (`jupyter lite serve` gives 403 there) |
 | optional | `add_local_modelflow.cmd` | puts a wheel of your local modelflow source into `pypi\`, used instead of PyPI's |
 
 `serve.cmd` opens the browser right away; if the page is not there yet, reload it
@@ -22,12 +22,14 @@ once the server is running.
 | Path | Purpose |
 |---|---|
 | `content/` | notebooks and data files that appear in the site |
-| `content/start.ipynb` | installs ModelFlow in the browser and runs a tiny model |
+| `content/pakstart.ipynb` | front page: the Pakistan carbon-tax example; published from `C:\mfdemo\Pakistan\pakstart.ipynb` (also the chapter of the `jbthebe` book), so edit the master |
+| `content/start.ipynb` | the earlier front page, kept because the e-mailed link `?path=start.ipynb` points to it |
+| `content/wbtest.ipynb`, `content/WorldbankModels/` | the World Bank country models (readme + StandardShocks each); published from `C:\mfdemo\Pakistan`, the install cell is added by the publisher (`setup_cell` in `publish.yml`) |
 | `content/mfsetup.py` | `install_modelflow()`: the install step every notebook starts with |
 | `requirements.txt` | build tools and widget front-ends (not installed in the browser) |
 | `jupyter_lite_config.json` | build settings: `content` → `dist` |
 | `jupyter-lite.json` | settings of the running site |
-| `overrides/index.html` | front page: opens `start.ipynb` in the Notebook interface (copied over `dist/index.html` after the build) |
+| `overrides/index.html` | front page: opens `pakstart.ipynb` in the Notebook interface (copied over `dist/index.html` after the build) |
 | `pypi/` | optional local wheels, offered to `%pip install` before PyPI |
 | `.github/workflows/deploy.yml` | GitHub Actions: build and publish on GitHub Pages |
 
@@ -78,5 +80,5 @@ JupyterLab (`…/lab/`), or a private browser window.
    *create a repository* → *Publish*).
 2. On github.com: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 3. Every push to `main` rebuilds the site. It appears at
-   `https://<user>.github.io/<repo>/` and opens `start.ipynb` in the Notebook
+   `https://<user>.github.io/<repo>/` and opens `pakstart.ipynb` in the Notebook
    interface. The file list is at `…/tree/`, JupyterLab at `…/lab/`.

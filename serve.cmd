@@ -1,11 +1,6 @@
 @echo off
 REM Serve the built site on http://127.0.0.1:8000/ (Ctrl+C to stop).
-REM jupyter lite serve sets the right file types for .wasm/.mjs, which plain
-REM "python -m http.server" on Windows may not.
-setlocal
-call "%USERPROFILE%\miniforge3\Scripts\activate.bat" jlite
-if errorlevel 1 exit /b 1
-cd /d "%~dp0"
-start "" "http://127.0.0.1:8000/notebooks/index.html?path=start.ipynb"
-jupyter lite serve --port 8000
-endlocal
+REM Runs serve_dist.cmd (python http.server, see serve_dist.py): it redirects /tree to
+REM /tree/ like GitHub Pages, so File > Open works. "jupyter lite serve" answers 403 there.
+REM A port can be given as the first argument.
+call "%~dp0serve_dist.cmd" %*
