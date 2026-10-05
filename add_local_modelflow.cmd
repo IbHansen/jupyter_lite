@@ -2,7 +2,9 @@
 REM ---------------------------------------------------------------
 REM  Optional: put a wheel of your LOCAL modelflow source into pypi\.
 REM  The site then installs that instead of modelflowib from PyPI.
-REM  Rebuild afterwards (build.cmd). Delete pypi\*.whl to go back to PyPI.
+REM  Rebuild afterwards (build.cmd). To go back to PyPI: delete pypi\*.whl AND the
+REM  whole dist\ folder, then build.cmd - the build never removes the old wheel or
+REM  its index entry in dist\jupyter-lite.json, so the site would keep using it.
 REM
 REM  Usage:  add_local_modelflow.cmd [path-to-modelflow-source]
 REM          default: C:\modelflow2\modelflow (whatever branch is checked out)

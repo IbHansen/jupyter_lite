@@ -12,7 +12,7 @@ site and publishes it on GitHub Pages.
 | once | `setup_env.cmd` | creates the conda env `jlite` with the build tools from `requirements.txt` |
 | after every change | `build.cmd` | builds the site from `content\` into `dist\` |
 | to try it | `serve.cmd` | serves `dist\` on <http://127.0.0.1:8000/> and opens `pakstart.ipynb`; runs `serve_dist.cmd` (Python's http.server), which redirects `/tree` to `/tree/` like GitHub Pages so File → Open works (`jupyter lite serve` gives 403 there) |
-| optional | `add_local_modelflow.cmd` | puts a wheel of your local modelflow source into `pypi\`, used instead of PyPI's |
+| optional | `add_local_modelflow.cmd` | puts a wheel of your local modelflow source into `pypi\`, used instead of PyPI's; to go back, delete `pypi\*.whl` **and** `dist\`, then `build.cmd` (the build never removes the old wheel from `dist\`) |
 
 `serve.cmd` opens the browser right away; if the page is not there yet, reload it
 once the server is running.
