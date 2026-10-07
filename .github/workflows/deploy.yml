@@ -1,5 +1,6 @@
 # Builds the JupyterLite site and publishes it on GitHub Pages.
 # In the repo: Settings -> Pages -> Build and deployment -> Source: GitHub Actions
+# Generated - master: C:\deploy\sitecontrol\lite\shared\.github\workflows\deploy.yml
 name: Build and Deploy
 
 on:
@@ -28,10 +29,12 @@ jobs:
         run: |
           # Browsers keep their own copy of every notebook that was opened, which hides newer
           # versions from the site. A storage name per deployment makes each deployment start fresh.
-          python -c "import json,os; p='jupyter-lite.json'; c=json.load(open(p)); c['jupyter-config-data']['contentsStorageName']='ModelFlow Lite '+os.environ['GITHUB_SHA'][:8]; json.dump(c,open(p,'w'),indent=2)"
+          # It starts with the site's appName (jupyter-lite.json), so sites don't share storage.
+          python -c "import json,os; p='jupyter-lite.json'; c=json.load(open(p)); d=c['jupyter-config-data']; d['contentsStorageName']=d.get('appName',os.environ['GITHUB_REPOSITORY'])+' '+os.environ['GITHUB_SHA'][:8]; json.dump(c,open(p,'w'),indent=2)"
           jupyter lite build
-          # front page opens pakstart.ipynb in the Notebook interface instead of JupyterLab
-          cp overrides/index.html dist/index.html
+          # the site's own front page (e.g. opens pakstart.ipynb in the Notebook interface
+          # instead of JupyterLab), if it has one
+          if [ -f overrides/index.html ]; then cp overrides/index.html dist/index.html; fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:

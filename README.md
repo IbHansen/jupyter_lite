@@ -5,6 +5,12 @@ Python runs inside the browser (Pyodide, Python 3.14), so nothing has to be
 installed. The folder is a ready GitHub repository: GitHub Actions builds the
 site and publishes it on GitHub Pages.
 
+The scripts, `requirements.txt`, the build settings and the GitHub workflow are the
+same in every JupyterLite site: they are published in from
+`C:\deploy\sitecontrol\lite\shared` (read-only here; edit them there). This site's own
+files are this README, `jupyter-lite.json`, `overrides\index.html` and the native files in
+`content\`; the notebooks it gets are listed in `C:\deploy\publish\manifests\jupyter_lite.yml`.
+
 ## Local experiments (Windows, Miniforge)
 
 | Step | Command | Does |
@@ -24,8 +30,8 @@ once the server is running.
 | `content/` | notebooks and data files that appear in the site |
 | `content/pakstart.ipynb` | front page: the Pakistan carbon-tax example; published from `C:\mfdemo\Pakistan\pakstart.ipynb` (also the chapter of the `jbthebe` book), so edit the master |
 | `content/start.ipynb` | the earlier front page, kept because the e-mailed link `?path=start.ipynb` points to it |
-| `content/wbtest.ipynb`, `content/WorldbankModels/` | the World Bank country models (readme + StandardShocks each); published from `C:\mfdemo\Pakistan`, the install cell is added by the publisher (`setup_cell` in `publish.yml`) |
-| `content/mfsetup.py` | `install_modelflow()`: the install step every notebook starts with |
+| `content/wbtest.ipynb`, `content/WorldbankModels/` | the World Bank country models (readme + StandardShocks each); published from `C:\mfdemo\Pakistan`, the install cell is added by the publisher (`setup_cell` in `C:\deploy\publish\manifests\jupyter_lite.yml`) |
+| `content/mfsetup.py` | `install_modelflow()`: the install step every notebook starts with; master `C:\deploy\sitecontrol\lite\mfsetup.py` |
 | `requirements.txt` | build tools and widget front-ends (not installed in the browser) |
 | `jupyter_lite_config.json` | build settings: `content` → `dist` |
 | `jupyter-lite.json` | settings of the running site |
